@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h" />
-    <ClInclude Include="Include.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="sum_AF1.h" />
     <ClInclude Include="sum_Naive.h" />

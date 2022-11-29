@@ -1,5 +1,4 @@
 #include "TestData.h"
-#include "HelperFunctions.h"
 
 TestParam TestData::getParams(int argc, char** argv)
 {
@@ -44,7 +43,9 @@ double* TestData::initRandom(const unsigned int size)
 }
 
 TestData::TestData()
-	: params({0,0,0,'a'}), data(nullptr), size(0)
+	: params({0,0,0,'a'}),
+	data(nullptr),
+	size(0)
 {
 	//std::cout << "Called TestData::TestData default constructor.\n";
 }
@@ -59,7 +60,9 @@ TestData::TestData(int argc, char** argv)
 }
 
 TestData::TestData(const TestData& other)
-	: params(other.params), data(other.data), size(other.size)
+	: params(other.params),
+	data(other.data),
+	size(other.size)
 {
 	//std::cout << "Called TestData::~TestData copy constructor.\n";
 }
