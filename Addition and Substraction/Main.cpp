@@ -46,18 +46,13 @@ int main(int argc, char** argv)
 			{
 				testFunction test = iterator.second.testFunction;
 				TestResult results = getResults(Data, test);
-				std::cout << iterator.second.testName << ", " << results.result 
-					<< ", " << results.mu[Data.params.numReps - 1] << ", "
-					<< results.beta[Data.params.numReps - 1] << "\n";
+				writeResults(iterator.second.testName, Data.params, results);
 			}
 			break;
 
 		default: // do just one specific test in Tests
 			testFunction test = Tests[Data.params.test].testFunction;
 			TestResult results = getResults(Data, test);
-			std::cout << Tests[Data.params.test].testName << ", " << results.result
-				<< ", " << results.mu[Data.params.numReps - 1] << ", "
-				<< results.beta[Data.params.numReps - 1] << "\n";
 			break;
 	}
 

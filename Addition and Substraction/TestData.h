@@ -5,10 +5,10 @@
 #include "Types.h"
 
 typedef struct TestData {
+
 	TestParam params; // the test parameters
 	double* data; // the test data
 	unsigned int size;
-
 
 	TestParam getParams(int argc, char** argv);
 	double* initRandom(const unsigned int size);

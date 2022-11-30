@@ -2,11 +2,9 @@
 
 void printHeader(TestParam params)
 {
-	std::cout << "# Array legnth         : " << params.arrayLength << "\n";
-	std::cout << "# Number of repetitions: " << params.numReps << "\n";
-	std::cout << "# Loop unroll factor   : " << params.unrollFactor << "\n";
-	std::cout << "#\n";
-	std::cout << "# Test name, test result, mean CPU cycles, std CPU cycles\n";
+	std::cout << "Array legnth         : " << params.arrayLength << "\n";
+	std::cout << "Number of repetitions: " << params.numReps << "\n";
+	std::cout << "Loop unroll factor   : " << params.unrollFactor << "\n\n";
 }
 
 TestResult getResults(const TestData& testdata, testFunction test)
@@ -47,8 +45,45 @@ void getStats(const TestData& testdata, testFunction test, TestResult& results)
 		results.mu[i] = previous_mu + factor_mu * (results.cpuCycles[i] - previous_mu);
 		// update variance beta
 		results.beta[i] = previous_beta + factor_beta * (i * diff * diff - (i + 1) * previous_beta);
-
 	} // End statistics gathering
+}
+
+void writeResults(const std::string name, const TestParam& param, const TestResult& results)
+{
+	/*
+	# Test           : <test name>
+	# Length of data : <arrayLength>
+	# Number of reps : <results size>
+	#
+	# RESULT OF TEST : <result.result>
+	#
+	# of CPU cycles		sliding - average # of CPU cycles
+	312312		343746278		0.2763218
+	312312		343746278		0.2763218
+	.			.				.
+	.			.				.
+	*/
+
+	std::fstream fout;
+	std::string fname = name + "." + std::to_string(param.arrayLength)
+		+ "." + std::to_string(param.numReps)
+		+ ".txt";
+	std::cout << "Results written to '" << fname << "'.\n";
+	fout.open(fname, std::ios::out);
+
+	fout << "# Test           : " << name << "\n";
+	fout << "# Length of data : " << param.arrayLength << "\n";
+	fout << "# Number of reps : " << param.numReps << "\n";
+	fout << "#\n";
+	fout << "# RESULT OF TEST : " << results.result << "\n";
+	fout << "#\n";
+	fout << "# of CPU cycles\t\tsliding-average # of CPU cycles\t\tsliding-variance # of CPU cycles\n";
+	fout << "#\n";
+	for (size_t i = 0; i < param.numReps; i++)
+	{
+		fout << results.cpuCycles[i] << "\t\t" << results.mu[i] << "\t\t" << results.beta[i] << "\n";
+	}
+	fout.close();
 }
 
 void printArray(double* array, const unsigned int size)
