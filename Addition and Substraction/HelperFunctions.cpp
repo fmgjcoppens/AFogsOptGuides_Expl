@@ -10,20 +10,25 @@ void printHeader(TestParam params)
 TestResult getResults(const TestData& testdata, testFunction test)
 {
 	// Declare and init test results
-	TestResult results(testdata.params);
+	TestResult Results(testdata.params);
 
 	// Do zero-iteration to kickstart recursion-relation
 	cc tick = __rdtsc();
-	results.result = test(testdata);
+	Results.result = test(testdata);
 	cc tock = __rdtsc();
-	results.cpuCycles[0] = tock - tick;
-	results.mu[0] = (double)results.cpuCycles[0];
-	results.beta[0] = 0;
+	Results.cpuCycles[0] = tock - tick;
+	Results.mu[0] = (double)Results.cpuCycles[0];
+	Results.beta[0] = 0;
 
 	// Begin statistics gathering (params, data, results)
-	getStats(testdata, test, results);
+	getStats(testdata, test, Results);
 
-	return results;
+	// Compute true mean and error in moving mean
+	Results.getTrueMean();
+	// Compute true variance and error in moving variance
+	Results.getTrueVariance();
+
+	return Results;
 }
 
 void getStats(const TestData& testdata, testFunction test, TestResult& results)
@@ -71,11 +76,13 @@ void writeResults(const std::string name, const TestResult& results)
 	std::cout << "Results written to '" << fname << "'.\n";
 	fout.open(fname, std::ios::out);
 
-	fout << "# Test           : " << name << "\n";
-	fout << "# Length of data : " << results.params.arrayLength << "\n";
-	fout << "# Number of reps : " << results.params.numReps << "\n";
+	fout << "# Test                    : " << name << "\n";
+	fout << "# Length of data          : " << results.params.arrayLength << "\n";
+	fout << "# Number of reps          : " << results.params.numReps << "\n";
 	fout << "#\n";
-	fout << "# RESULT OF TEST : " << results.result << "\n";
+	fout << "# Test result             : " << results.result << "\n";
+	fout << "# Arithmetic mean ± error : " << results.true_mu << " ± " << results.err_mu << "\n";
+	fout << "# Variance ± error        : " << results.true_beta << " ± " << results.err_beta << "\n";
 	fout << "#\n";
 	fout << "# of CPU cycles\t\tsliding-average # of CPU cycles\t\tsliding-variance # of CPU cycles\n";
 	fout << "#\n";

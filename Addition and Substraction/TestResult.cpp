@@ -1,11 +1,39 @@
 #include "TestResult.h"
 
+void TestResult::getTrueMean()
+{
+	unsigned int size = params.numReps;
+	for (size_t i = 0; i < size; i++)
+	{
+		true_mu += cpuCycles[i];
+	}
+	true_mu /= size;
+	err_mu = mu[size - 1] - true_mu;
+}
+
+void TestResult::getTrueVariance()
+{
+	std::cout << "Values of  true_beta, true_mu, err_beta = " << true_beta << ", " << true_mu << ", " << err_beta << "\n";
+	unsigned int size = params.numReps;
+	for (size_t i = 0; i < size; i++)
+	{
+		true_beta += (cpuCycles[i] - true_mu) * (cpuCycles[i] - true_mu);
+	}
+	true_beta /= size;
+	err_beta = beta[size - 1] - true_beta;
+	std::cout << "Values of  true_beta, err_beta, beta[size - 1] = " << true_beta << ", " << err_beta << ", " << beta[size - 1] << "\n";
+}
+
 TestResult::TestResult() // default constructor
 	: result(0.0f),
 	cpuCycles(nullptr),
 	size(0),
 	mu(nullptr),
-	beta(nullptr)
+	true_mu(0),
+	err_mu(0),
+	beta(nullptr),
+	true_beta(0),
+	err_beta(0)
 {
 	//std::cout << "Called TestResult::TestResult default constructor.\n";
 }
@@ -16,7 +44,11 @@ TestResult::TestResult(const TestParam& params) // constructor that inits arrays
 	size(params.numReps),
 	cpuCycles(new cc[params.numReps]),
 	mu(new double[params.numReps]),
-	beta(new double[params.numReps])
+	true_mu(0),
+	err_mu(0),
+	beta(new double[params.numReps]),
+	true_beta(0),
+	err_beta(0)
 {
 	//std::cout << "Called TestResult::TestResult constructor with "
 	//	      << params.numReps << " repetitions.\n";
@@ -27,7 +59,11 @@ TestResult::TestResult(const TestResult& other) // copy constructor
 	cpuCycles(other.cpuCycles),
 	size(other.size),
 	mu(other.mu),
-	beta(other.beta)
+	true_mu(other.true_mu),
+	err_mu(other.err_mu),
+	beta(other.beta),
+	true_beta(other.true_beta),
+	err_beta(other.err_beta)
 {
 	//std::cout << "Called TestResult::TestResult copy constructor.\n";
 }
@@ -39,3 +75,4 @@ TestResult::~TestResult() // destructor
 	delete [] mu;
 	delete [] beta;
 }
+
