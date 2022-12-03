@@ -48,7 +48,7 @@ void getStats(const TestData& testdata, testFunction test, TestResult& results)
 	} // End statistics gathering
 }
 
-void writeResults(const std::string name, const TestParam& param, const TestResult& results)
+void writeResults(const std::string name, const TestResult& results)
 {
 	/*
 	# Test           : <test name>
@@ -65,21 +65,21 @@ void writeResults(const std::string name, const TestParam& param, const TestResu
 	*/
 
 	std::fstream fout;
-	std::string fname = name + "." + std::to_string(param.arrayLength)
-		+ "." + std::to_string(param.numReps)
+	std::string fname = name + "." + std::to_string(results.params.arrayLength)
+		+ "." + std::to_string(results.params.numReps)
 		+ ".txt";
 	std::cout << "Results written to '" << fname << "'.\n";
 	fout.open(fname, std::ios::out);
 
 	fout << "# Test           : " << name << "\n";
-	fout << "# Length of data : " << param.arrayLength << "\n";
-	fout << "# Number of reps : " << param.numReps << "\n";
+	fout << "# Length of data : " << results.params.arrayLength << "\n";
+	fout << "# Number of reps : " << results.params.numReps << "\n";
 	fout << "#\n";
 	fout << "# RESULT OF TEST : " << results.result << "\n";
 	fout << "#\n";
 	fout << "# of CPU cycles\t\tsliding-average # of CPU cycles\t\tsliding-variance # of CPU cycles\n";
 	fout << "#\n";
-	for (size_t i = 0; i < param.numReps; i++)
+	for (size_t i = 0; i < results.params.numReps; i++)
 	{
 		fout << results.cpuCycles[i] << "\t\t" << results.mu[i] << "\t\t" << results.beta[i] << "\n";
 	}

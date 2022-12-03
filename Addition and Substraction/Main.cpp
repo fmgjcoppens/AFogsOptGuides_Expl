@@ -35,26 +35,27 @@ int main(int argc, char** argv)
 	Tests['u'] = { "Unrolled", &sum_AF1 };
 
 	// Declare and initialize test parameters and data
-	const TestData Data(argc, argv);
+	const TestParam Params(argc, argv);
+	const TestData Data(Params);
 
 	// Perform all tests or just one
-	printHeader(Data.params);
-	switch (Data.params.test)
+	printHeader(Params);
+	switch (Params.test)
 	{
 		case 'a': // do all tests in Tests
 			for (auto& iterator : Tests)
 			{
 				testFunction test = iterator.second.testFunction;
-				TestResult results = getResults(Data, test);
-				writeResults(iterator.second.testName, Data.params, results);
+				TestResult Results = getResults(Data, test);
+				writeResults(iterator.second.testName, Results);
 			}
 			break;
 
 		default: // do just one specific test in Tests
-			testFunction test = Tests[Data.params.test].testFunction;
-			TestResult results = getResults(Data, test);
+			testFunction test = Tests[Params.test].testFunction;
+			TestResult Results = getResults(Data, test);
+			writeResults(Tests[Params.test].testName, Results);
 			break;
 	}
-
 	return 0;
 }

@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TestParam.cpp" />
     <ClCompile Include="sum_AF1.cpp" />
     <ClCompile Include="sum_Naive.cpp" />
     <ClCompile Include="TestData.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="sum_Naive.h" />
     <ClInclude Include="TestData.h" />
     <ClInclude Include="TestFunctions.h" />
+    <ClInclude Include="TestParam.h" />
     <ClInclude Include="TestResult.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>

@@ -10,13 +10,13 @@ TestResult::TestResult() // default constructor
 	//std::cout << "Called TestResult::TestResult default constructor.\n";
 }
 
-TestResult::TestResult(TestParam params) // constructor that inits arrays
-	: result(0.0f),
+TestResult::TestResult(const TestParam& params) // constructor that inits arrays
+	: params(params),
+	result(0.0f),
 	size(params.numReps),
 	cpuCycles(new cc[params.numReps]),
 	mu(new double[params.numReps]),
 	beta(new double[params.numReps])
-
 {
 	//std::cout << "Called TestResult::TestResult constructor with "
 	//	      << params.numReps << " repetitions.\n";
@@ -28,7 +28,6 @@ TestResult::TestResult(const TestResult& other) // copy constructor
 	size(other.size),
 	mu(other.mu),
 	beta(other.beta)
-
 {
 	//std::cout << "Called TestResult::TestResult copy constructor.\n";
 }
