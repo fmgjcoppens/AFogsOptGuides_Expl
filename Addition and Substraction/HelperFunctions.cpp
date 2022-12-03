@@ -12,26 +12,30 @@ TestResult getResults(const TestData& testdata, testFunction test)
 	// Declare and init test results
 	TestResult Results(testdata.params);
 
-	// Do zero-iteration to kickstart recursion-relation
-	cc tick = __rdtsc();
-	Results.result = test(testdata);
-	cc tock = __rdtsc();
-	Results.cpuCycles[0] = tock - tick;
-	Results.mu[0] = (double)Results.cpuCycles[0];
-	Results.beta[0] = 0;
+	// Do zero-iteration to kickstart recursion-relations
+	initStats(Results, test, testdata);
 
-	// Begin statistics gathering (params, data, results)
-	getStats(testdata, test, Results);
+	// Gather statistics (params, data, results)
+	getStats(Results, test, testdata);
 
-	// Compute true mean and error in moving mean
+	// Compute true mean/variance and error in moving mean/variance
 	Results.getTrueMean();
-	// Compute true variance and error in moving variance
 	Results.getTrueVariance();
 
 	return Results;
 }
 
-void getStats(const TestData& testdata, testFunction test, TestResult& results)
+void initStats(TestResult& results, testFunction test, const TestData& testdata)
+{
+	cc tick = __rdtsc();
+	results.result = test(testdata);
+	cc tock = __rdtsc();
+	results.cpuCycles[0] = tock - tick;
+	results.mu[0] = (double)results.cpuCycles[0];
+	results.beta[0] = 0;
+}
+
+void getStats(TestResult& results, testFunction test, const TestData& testdata)
 {
 	for (unsigned int i = 1; i < testdata.params.numReps; ++i)
 	{
