@@ -19,8 +19,8 @@ TestResult getResults(const TestData& testdata, testFunction test)
 	getStats(Results, test, testdata);
 
 	// Compute true mean/variance and error in moving mean/variance
-	Results.getTrueMean();
-	Results.getTrueVariance();
+	Results.getMean();
+	Results.getVariance();
 
 	return Results;
 }
@@ -31,8 +31,8 @@ void initStats(TestResult& results, testFunction test, const TestData& testdata)
 	results.result = test(testdata);
 	cc tock = __rdtsc();
 	results.cpuCycles[0] = tock - tick;
-	results.mu[0] = (double)results.cpuCycles[0];
-	results.beta[0] = 0;
+	results.onl_mu[0] = (double)results.cpuCycles[0];
+	results.onl_beta[0] = 0;
 }
 
 void getStats(TestResult& results, testFunction test, const TestData& testdata)
@@ -42,25 +42,34 @@ void getStats(TestResult& results, testFunction test, const TestData& testdata)
 		cc tick = __rdtsc();
 		results.result = test(testdata);
 		cc tock = __rdtsc();
-		results.cpuCycles[i] = tock - tick;
 
-		double factor_mu = 1.0f / (i + 1); // incremented by one because index 1 = 2nd element
-		double previous_mu = results.mu[i - 1];
-		double factor_beta = factor_mu * factor_mu;
-		double previous_beta = results.beta[0];
-		double diff = previous_mu - results.cpuCycles[i];
+		cc current_cc = tock - tick;
+		double previous_mu = results.onl_mu[i - 1];
+		double previous_beta = results.onl_beta[i - 1];
 
-		// update mu_{i + 1} == mu[i] from mu_{i} == mu[i - 1]
-		results.mu[i] = previous_mu + factor_mu * (results.cpuCycles[i] - previous_mu);
-		// update variance beta
-		results.beta[i] = previous_beta + factor_beta * (i * diff * diff - (i + 1) * previous_beta);
+		results.cpuCycles[i] = current_cc;
+		results.onl_mu[i] = updateMu(i, previous_mu, current_cc);
+		results.onl_beta[i] = updateBeta(i, previous_mu, previous_beta, current_cc);
 	} // End statistics gathering
+}
+
+double updateMu(const unsigned int position, const double previous_mu, const cc current_cc)
+{
+	double factor = 1.0f / (position + 1); // incremented by one because index 1 = 2nd element
+	return previous_mu + factor * (current_cc - previous_mu);
+}
+
+double updateBeta(const unsigned int position, const double previous_mu, const double previous_beta, const cc current_cc)
+{
+	double factor = (1.0f / (position + 1)) * (1.0f / (position + 1));
+	double diff = previous_mu - current_cc;
+	return previous_beta + factor * (position * diff * diff - (position + 1) * previous_beta);
 }
 
 void displayResults(const std::string name, const TestResult& results)
 {
 	std::cout << "Result of sum : " << results.result << "\n";
-	std::cout << "Average number of CPU cycles : " << results.true_mu << "\n";
+	std::cout << "Average number of CPU cycles : " << results.mu << "\n";
 }
 
 void writeResults(const std::string name, const TestResult& results)
@@ -90,14 +99,14 @@ void writeResults(const std::string name, const TestResult& results)
 	fout << "# Number of reps          : " << results.params.numReps << "\n";
 	fout << "#\n";
 	fout << "# Test result             : " << results.result << "\n";
-	fout << "# Arithmetic mean ± error : " << results.true_mu << " ± " << results.err_mu << "\n";
-	fout << "# Variance ± error        : " << results.true_beta << " ± " << results.err_beta << "\n";
+	fout << "# Arithmetic mean ± error : " << results.mu << " ± " << results.err_mu << "\n";
+	fout << "# Variance ± error        : " << results.beta << " ± " << results.err_beta << "\n";
 	fout << "#\n";
 	fout << "# iteration\t\tof CPU cycles\t\tsliding-average # of CPU cycles\t\tsliding-variance # of CPU cycles\n";
 	fout << "#\n";
 	for (size_t i = 0; i < results.params.numReps; i++)
 	{
-		fout << i + 1 << "\t\t" << results.cpuCycles[i] << "\t\t" << results.mu[i] << "\t\t" << results.beta[i] << "\n";
+		fout << i + 1 << "\t\t" << results.cpuCycles[i] << "\t\t" << results.onl_mu[i] << "\t\t" << results.onl_beta[i] << "\n";
 	}
 	fout.close();
 	std::cout << "Results written to '" << fname << "'.\n\n";

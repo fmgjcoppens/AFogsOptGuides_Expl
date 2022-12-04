@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Tests">
+      <UniqueIdentifier>{470902b4-bbe8-412a-b83f-3742f713d5ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{7d47e1b5-86ca-4f30-a57e-d96dbad87ac5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -27,17 +33,17 @@
     <ClCompile Include="TestData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sum_Naive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sum_AF1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestParam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sum_Naive.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
     <ClCompile Include="sum_ASM_AVX.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="sum_AF1.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,22 +65,22 @@
     <ClInclude Include="TestData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sum_Naive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sum_AF1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TestParam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sum_AF1.h">
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
     <ClInclude Include="sum_ASM_AVX.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="sum_Naive.h">
+      <Filter>Header Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="__sum_ASM_AVX.asm">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tests</Filter>
     </MASM>
   </ItemGroup>
 </Project>

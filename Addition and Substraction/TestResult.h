@@ -8,15 +8,15 @@ typedef struct TestResult {
 	double result; // result of the testfunction
 	cc* cpuCycles; // array with CPU cycles
 	unsigned int size; // size of cpuCycles
-	double* mu; // array with moving mean
-	double true_mu; // true mean
+	double* onl_mu; // array with moving mean
+	double mu; // true mean
 	double err_mu; // error in mean
-	double* beta; // array with moving variance
-	double true_beta; // true variance
+	double* onl_beta; // array with moving variance
+	double beta; // true variance
 	double err_beta; // error in variance
 
-	void getTrueMean();
-	void getTrueVariance();
+	void getMean();
+	void getVariance();
 
 	TestResult(); // default constructor
 	TestResult(const TestParam& params); // constructor that inits arrays
