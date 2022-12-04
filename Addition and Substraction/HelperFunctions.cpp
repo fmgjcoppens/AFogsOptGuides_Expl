@@ -57,6 +57,12 @@ void getStats(TestResult& results, testFunction test, const TestData& testdata)
 	} // End statistics gathering
 }
 
+void displayResults(const std::string name, const TestResult& results)
+{
+	std::cout << "Result of sum : " << results.result << "\n";
+	std::cout << "Average number of CPU cycles : " << results.true_mu << "\n";
+}
+
 void writeResults(const std::string name, const TestResult& results)
 {
 	/*
@@ -66,9 +72,9 @@ void writeResults(const std::string name, const TestResult& results)
 	#
 	# RESULT OF TEST : <result.result>
 	#
-	# of CPU cycles		sliding - average # of CPU cycles
-	312312		343746278		0.2763218
-	312312		343746278		0.2763218
+	# iteration		of CPU cycles		sliding - average # of CPU cycles
+	1		312312		343746278		0.2763218
+	2		312312		343746278		0.2763218
 	.			.				.
 	.			.				.
 	*/
@@ -77,7 +83,6 @@ void writeResults(const std::string name, const TestResult& results)
 	std::string fname = name + "." + std::to_string(results.params.arrayLength)
 		+ "." + std::to_string(results.params.numReps)
 		+ ".txt";
-	std::cout << "Results written to '" << fname << "'.\n";
 	fout.open(fname, std::ios::out);
 
 	fout << "# Test                    : " << name << "\n";
@@ -88,13 +93,14 @@ void writeResults(const std::string name, const TestResult& results)
 	fout << "# Arithmetic mean ± error : " << results.true_mu << " ± " << results.err_mu << "\n";
 	fout << "# Variance ± error        : " << results.true_beta << " ± " << results.err_beta << "\n";
 	fout << "#\n";
-	fout << "# of CPU cycles\t\tsliding-average # of CPU cycles\t\tsliding-variance # of CPU cycles\n";
+	fout << "# iteration\t\tof CPU cycles\t\tsliding-average # of CPU cycles\t\tsliding-variance # of CPU cycles\n";
 	fout << "#\n";
 	for (size_t i = 0; i < results.params.numReps; i++)
 	{
-		fout << results.cpuCycles[i] << "\t\t" << results.mu[i] << "\t\t" << results.beta[i] << "\n";
+		fout << i + 1 << "\t\t" << results.cpuCycles[i] << "\t\t" << results.mu[i] << "\t\t" << results.beta[i] << "\n";
 	}
 	fout.close();
+	std::cout << "Results written to '" << fname << "'.\n\n";
 }
 
 void printArray(double* array, const unsigned int size)

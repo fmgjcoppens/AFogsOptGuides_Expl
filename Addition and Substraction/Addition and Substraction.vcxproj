@@ -73,13 +73,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <MASM Include="functions.asm">
+    <MASM Include="__sum_ASM_AVX.asm">
       <FileType>Document</FileType>
     </MASM>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="sum_ASM_AVX.cpp" />
     <ClCompile Include="TestParam.cpp" />
     <ClCompile Include="sum_AF1.cpp" />
     <ClCompile Include="sum_Naive.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="sum_AF1.h" />
+    <ClInclude Include="sum_ASM_AVX.h" />
     <ClInclude Include="sum_Naive.h" />
     <ClInclude Include="TestData.h" />
     <ClInclude Include="TestFunctions.h" />

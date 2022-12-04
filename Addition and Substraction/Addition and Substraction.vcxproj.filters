@@ -36,6 +36,9 @@
     <ClCompile Include="TestParam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sum_ASM_AVX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h">
@@ -65,9 +68,12 @@
     <ClInclude Include="TestParam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sum_ASM_AVX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="functions.asm">
+    <MASM Include="__sum_ASM_AVX.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

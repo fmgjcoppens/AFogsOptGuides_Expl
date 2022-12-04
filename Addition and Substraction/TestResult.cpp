@@ -13,7 +13,6 @@ void TestResult::getTrueMean()
 
 void TestResult::getTrueVariance()
 {
-	std::cout << "Values of  true_beta, true_mu, err_beta = " << true_beta << ", " << true_mu << ", " << err_beta << "\n";
 	unsigned int size = params.numReps;
 	for (size_t i = 0; i < size; i++)
 	{
@@ -21,7 +20,6 @@ void TestResult::getTrueVariance()
 	}
 	true_beta /= size;
 	err_beta = beta[size - 1] - true_beta;
-	std::cout << "Values of  true_beta, err_beta, beta[size - 1] = " << true_beta << ", " << err_beta << ", " << beta[size - 1] << "\n";
 }
 
 TestResult::TestResult() // default constructor

@@ -33,6 +33,7 @@ int main(int argc, char** argv)
 	std::unordered_map<char, Test> Tests; 
 	Tests['n'] = { "Naive", &sum_Naive };
 	Tests['u'] = { "Unrolled", &sum_AF1 };
+	Tests['a'] = { "ASM AVX", &sum_ASM_AVX };
 
 	// Declare and initialize test parameters and data
 	const TestParam Params(argc, argv);
@@ -47,6 +48,7 @@ int main(int argc, char** argv)
 			{
 				testFunction test = iterator.second.testFunction;
 				TestResult Results = getResults(Data, test);
+				displayResults(iterator.second.testName, Results);
 				writeResults(iterator.second.testName, Results);
 			}
 			break;
@@ -54,6 +56,7 @@ int main(int argc, char** argv)
 		default: // do just one specific test in Tests
 			testFunction test = Tests[Params.test].testFunction;
 			TestResult Results = getResults(Data, test);
+			displayResults(Tests[Params.test].testName, Results);
 			writeResults(Tests[Params.test].testName, Results);
 			break;
 	}
