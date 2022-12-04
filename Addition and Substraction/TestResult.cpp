@@ -9,10 +9,16 @@ void TestResult::getMean()
 	}
 	mu /= size;
 	err_mu = onl_mu[size - 1] - mu;
+	did_mu = true;
 }
 
 void TestResult::getVariance()
 {
+	if (!did_mu)
+	{
+		std::cout << "PLEASE CALL 'TestResult::getMean()' BEFORE 'TestResult::getVariance()'!\n";
+		return;
+	}
 	unsigned int size = params.numReps;
 	for (size_t i = 0; i < size; i++)
 	{
