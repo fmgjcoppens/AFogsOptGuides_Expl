@@ -1,6 +1,6 @@
 require "cmake"
 
-workspace "AFOG"
+workspace "Agner Fog's Optimisation Guide"
     architecture "x64"
 
     configurations
@@ -12,8 +12,8 @@ workspace "AFOG"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "Addition_and_Substraction"
-    location "Addition_and_Substraction"
+project "Addition and Substraction"
+    location "Addition and Substraction"
     kind "consoleApp"
     language "C++"
 
@@ -23,9 +23,7 @@ project "Addition_and_Substraction"
     files
     {
         "%{prj.name}/include/**.h",
-        -- "%{prj.name}/include/Tests/**.h",
         "%{prj.name}/src/**.cpp",
-        -- "%{prj.name}/src/Tests/**.cpp",
         "%{prj.name}/src/**.asm"
     }
 

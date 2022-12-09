@@ -362,3 +362,12 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 *.png
+
+
+# Ignore also VS solution and project files.
+*.sln
+*.vcxproj
+*.vcxproj.*
+
+# Ignore binary output
+bin*
