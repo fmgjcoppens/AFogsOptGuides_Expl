@@ -1,25 +1,61 @@
-To add an instance of 'double myTest(const TestData&);' to the testing
-framework, do
+# Exploration of Agner Fog's optimisation guides
 
-	1. Add an empty 'myTest.h' file to 'Addition and Substraction\include\Tests'
-	   with minimal contents
+### Adding an instance of `double myTest(const TestData&);` (C/C++)
+1. Add a new header file `myTest.h` to `Addition and Substraction/include/Tests` with minimal contents
+	```
+	#pragma once
+	#include "TestData.h"
+	
+	double myTest(const TestData& testdata);
+	```
+2. Add a new source file `myTest.cpp` to `Addition and Substraction/src/Tests` with minimal contents
+	```
+	#include "myTest.h"
+	
+	double myTest(const TestData& testdata)
+	{
+		// test code
+	}
+	```
+3. Add `myTest` to the unordered_map `Tests` at `Addition and Substraction/src/Main.cpp:33`
+	```
+	Tests['m'] = { "my test", &myTest };
+	```
 
-		#pragma once
-		#include "TestData.h"
-		double myTest(const TestData& testdata);
+### Adding an instance of `double myTest(const TestData&);` (Assembly)
+1. Add a new header file `myTest.h` to `Addition and Substraction/include/Tests` with minimal contents
+	```
+	#pragma once
+	#include "TestData.h"
 
-	2. Add an empty 'myTest.cpp' file to 'Addition and Substraction\src\Tests'
-	   with minimal contents
+	extern "C" double __myTest(double*, unsigned int);
+	double myTest(const TestData& testdata);
+	```
+2. Add a new source file `myTest.cpp` to `Addition and Substraction/src/Tests` with minimal contents
+	```
+	#include "myTest.h"
 
-		#include "myTest.h"
-		double myTest(const TestData& testdata)
-		{
-			// your test code
-		}
+	double myTest(const TestData& testdata)
+	{
+		return __myTest(testdata.data, testdata.size);
+	}
+	```
+3. Add new assembly source file `__myTest.asm` to `Addition and Substraction/src/Tests` with minimal contents
+	```
+	.code
+	__myTest proc
+		push rbx
+		
+		; ASM code here
+		
+		pop rbx
+		ret
+	__myTest endp
+	end
+	```
+3. Add `myTest` to the unordered_map `Tests` at `Addition and Substraction/src/Main.cpp:33`
+	```
+	Tests['m'] = { "my test", &myTest };
+	```
 
-	3. Add 'myTest' to the unordered_map 'Tests' in 
-	   'Addition and Substraction\src\Main.cpp:33'
-
-		Tests['m'] = { "my test", &myTest };
-
-	   Make sure the index 'm' is unique.
+***Make sure the index `m` is unique otherwise it overwrites the previous instance of `m`!***
