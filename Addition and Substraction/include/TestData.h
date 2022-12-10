@@ -8,11 +8,11 @@ typedef struct TestData {
 	double* data; // the test data
 	unsigned int size;
 
-	double* initRandom(const unsigned int size);
-
 	TestData(); // default constructor
 	TestData(const TestParam& params); // constructor that inits arrays
 	TestData(const TestData& other); // copy constructor
-
 	~TestData();
+
+	double* initRandom(const unsigned int size);
+
 } TestData;

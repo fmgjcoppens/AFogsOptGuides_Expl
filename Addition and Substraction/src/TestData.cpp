@@ -1,15 +1,5 @@
 #include "TestData.h"
 
-double* TestData::initRandom(const unsigned int size)
-{
-	srand((unsigned int)time(0));
-	double* tmp = new double[size];
-	for (unsigned int i = 0; i < size; ++i)
-	{
-		tmp[i] = rand() / float(RAND_MAX);
-	}
-	return tmp;
-}
 
 TestData::TestData()
 	: data(nullptr),
@@ -39,4 +29,15 @@ TestData::~TestData()
 {
 	//std::cout << "Called TestData::~TestData destructor.\n";
 	delete[] data;
+}
+
+double* TestData::initRandom(const unsigned int size)
+{
+	srand((unsigned int)time(0));
+	double* tmp = new double[size];
+	for (unsigned int i = 0; i < size; ++i)
+	{
+		tmp[i] = rand() / float(RAND_MAX);
+	}
+	return tmp;
 }

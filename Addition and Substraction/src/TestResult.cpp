@@ -45,8 +45,8 @@ TestResult::TestResult() // default constructor
 TestResult::TestResult(const TestParam& params) // constructor that inits arrays
 	: params(params),
 	result(0.0f),
-	size(params.numReps),
 	cpuCycles(new cc[params.numReps]),
+	size(params.numReps),
 	onl_mu(new double[params.numReps]),
 	mu(0),
 	err_mu(0),
